@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Liam's Dev Mac Setup Brief</title>
+  <style>
+    :root {
+      --paper: #f3f1eb;
+      --ink: #20231f;
+      --muted: #666a62;
+      --line: #cbc9c0;
+      --panel: #fbfaf6;
+      --green: #176b50;
+      --green-pale: #dcebe4;
+      --red: #a13b2a;
+      --yellow: #f0c84b;
+      --code: #19201d;
+      --code-ink: #edf1ed;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        linear-gradient(rgba(32, 35, 31, .035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 100% 28px;
+      color: var(--ink);
+      font-family: Athelas, Palatino, "Palatino Linotype", Georgia, serif;
+      line-height: 1.55;
+    }
+
+    button, input { font: inherit; }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--ink);
+      padding: 46px 0 34px;
+    }
+
+    .kicker, .label, nav, .meta, .status, button, code, pre, .phase-number {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      letter-spacing: 0;
+    }
+
+    .kicker {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 14px 0 10px;
+      font-size: 76px;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: .93;
+      overflow-wrap: anywhere;
+    }
+
+    .lede {
+      max-width: 720px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: 19px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      margin-top: 28px;
+      font-size: 12px;
+    }
+
+    .meta strong { color: var(--green); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 50px;
+      padding: 34px 0 80px;
+    }
+
+    nav {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      font-size: 12px;
+    }
+
+    nav a {
+      display: block;
+      border-bottom: 1px solid var(--line);
+      padding: 11px 4px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    nav a:hover { color: var(--green); }
+
+    .progress-wrap { margin-top: 24px; }
+
+    .progress-track {
+      height: 7px;
+      margin-top: 7px;
+      overflow: hidden;
+      background: #d7d5cd;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      background: var(--green);
+      transition: width .25s ease;
+    }
+
+    main { min-width: 0; }
+
+    .notice {
+      display: grid;
+      grid-template-columns: 8px 1fr;
+      margin-bottom: 36px;
+      border: 1px solid var(--ink);
+      background: var(--panel);
+    }
+
+    .notice::before { content: ""; background: var(--red); }
+    .notice-body { padding: 18px 20px; }
+    .notice strong { display: block; margin-bottom: 3px; }
+    .notice p { margin: 0; color: var(--muted); }
+
+    section {
+      padding: 38px 0 44px;
+      border-top: 1px solid var(--ink);
+      scroll-margin-top: 20px;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .phase-number {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.1;
+    }
+
+    .section-intro {
+      max-width: 720px;
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .task {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .task input {
+      width: 17px;
+      height: 17px;
+      margin: 5px 0 0;
+      accent-color: var(--green);
+    }
+
+    .task label { cursor: pointer; }
+    .task label strong { font-weight: 700; }
+    .task p { margin: 3px 0 0; color: var(--muted); }
+    .task:has(input:checked) label { color: var(--muted); text-decoration: line-through; }
+
+    .command {
+      position: relative;
+      margin: 18px 0;
+      background: var(--code);
+      color: var(--code-ink);
+      border-left: 5px solid var(--yellow);
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px 80px 20px 20px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.65;
+      white-space: pre;
+    }
+
+    .copy {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: 1px solid #5c665f;
+      border-radius: 3px;
+      padding: 6px 9px;
+      background: transparent;
+      color: var(--code-ink);
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .copy:hover { background: #303a35; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin: 20px 0;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .cell { padding: 18px; background: var(--panel); }
+    .cell h3 { margin: 0 0 7px; font-size: 17px; }
+    .cell p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .tag {
+      display: inline-block;
+      margin: 8px 5px 0 0;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 3px 7px;
+      background: #fff;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 11px;
+    }
+
+    .tag.known { border-color: #8eb7a7; background: var(--green-pale); color: #0e553e; }
+    .tag.unknown { border-color: #cab778; background: #faf3d9; color: #735c10; }
+
+    .prompt {
+      border: 1px solid var(--green);
+      padding: 22px;
+      background: var(--green-pale);
+    }
+
+    .prompt h3 { margin: 0 0 8px; }
+
+    footer {
+      border-top: 1px solid var(--ink);
+      padding: 24px 0 50px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+      .shell { width: min(calc(100% - 22px), 1180px); }
+      header { padding-top: 30px; }
+      h1 { font-size: 42px; }
+      .layout { display: block; padding-top: 20px; }
+      nav { position: static; display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 34px; }
+      nav .progress-wrap { grid-column: 1 / -1; }
+      .grid { grid-template-columns: 1fr; }
+      .section-head { grid-template-columns: 42px minmax(0, 1fr); }
+      pre { padding-right: 20px; padding-top: 52px; }
+    }
+
+    @media print {
+      body { background: white; }
+      nav, .copy { display: none; }
+      .layout { display: block; }
+      section { break-inside: avoid; }
+      .command { print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <div class="kicker">Dev Mac / maintained setup baseline</div>
+      <h1>Liam's dev Mac setup brief</h1>
+    </div>
+  </header>
+
+  <div class="shell layout">
+    <nav aria-label="Setup phases">
+      <a href="#rules">00 / Operating rules</a>
+      <a href="#foundation">01 / Foundation</a>
+      <a href="#runtimes">02 / Runtimes</a>
+      <a href="#apps">03 / Applications</a>
+      <a href="#editor">04 / Editors</a>
+      <a href="#shell">05 / Shell and Git</a>
+      <a href="#macos">06 / macOS feel</a>
+      <a href="#verify">07 / Verification</a>
+      <div class="progress-wrap">
+        <div class="label"><span id="done-count">0</span>/<span id="total-count">0</span> tasks complete</div>
+        <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+      </div>
+    </nav>
+
+    <main>
+      <section id="rules">
+        <div class="section-head">
+          <div class="phase-number">00</div>
+          <div><h2>Operating rules</h2><p class="section-intro">Treat this document as the desired state, not permission to bypass corporate management or security policy.</p></div>
+        </div>
+        <div class="task"><input id="t01" type="checkbox"><label for="t01"><strong>Confirm ownership and policy.</strong><p>Determine what MDM, endpoint security, identity, package-management, and admin-rights restrictions apply before changing the machine.</p></label></div>
+        <div class="task"><input id="t02" type="checkbox"><label for="t02"><strong>Get approval before installation.</strong><p>Show Liam the proposed install list and commands. Do not silently substitute package sources or versions.</p></label></div>
+        <div class="task"><input id="t03" type="checkbox"><label for="t03"><strong>Use native Apple Silicon builds.</strong><p>Prefer arm64 packages and applications. Only install Rosetta when an approved dependency demonstrably requires it.</p></label></div>
+        <div class="task"><input id="t04" type="checkbox"><label for="t04"><strong>Preserve provenance.</strong><p>Homebrew ownership below is verified. For other apps, ask whether to use an employer portal, direct vendor download, or Mac App Store.</p></label></div>
+      </section>
+
+      <section id="foundation">
+        <div class="section-head">
+          <div class="phase-number">01</div>
+          <div><h2>Foundation</h2><p class="section-intro">Establish Apple's command-line tools and arm64 Homebrew before installing developer packages.</p></div>
+        </div>
+        <div class="task"><input id="t12" type="checkbox"><label for="t12"><strong>Install Xcode Command Line Tools.</strong><p>Run the command below and complete Apple's installer UI.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>xcode-select --install</pre></div>
+        <div class="task"><input id="t13" type="checkbox"><label for="t13"><strong>Install Homebrew for Apple Silicon.</strong><p>Use the official Homebrew installer only after approval. Verify that <code>brew</code> resolves under <code>/opt/homebrew/bin</code>.</p></label></div>
+        <div class="task"><input id="t14" type="checkbox"><label for="t14"><strong>Install the approved formulae.</strong><p>This is the complete Homebrew CLI baseline. Homebrew will install transitive dependencies automatically.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>brew install gh ripgrep uv</pre></div>
+      </section>
+
+      <section id="runtimes">
+        <div class="section-head">
+          <div class="phase-number">02</div>
+          <div><h2>Language runtimes</h2><p class="section-intro">Reproduce active defaults first. Do not reinstall the entire historical version archive unless a project needs it.</p></div>
+        </div>
+        <div class="grid">
+          <div class="cell"><h3>Node.js</h3><p>NVM-managed. Install the latest LTS release. The shell automatically follows project <code>.nvmrc</code> files.</p></div>
+          <div class="cell"><h3>Package managers</h3><p>Use npm bundled with Node and the latest stable pnpm release.</p></div>
+          <div class="cell"><h3>Python</h3><p>Install only the latest stable Python release through <code>uv</code>.</p></div>
+          <div class="cell"><h3>Rust</h3><p>Use rustup's rolling <code>stable</code> toolchain. Rust does not publish a separate LTS channel.</p></div>
+        </div>
+        <div class="task"><input id="t21" type="checkbox"><label for="t21"><strong>Install NVM and the latest Node LTS.</strong><p>Use the current official NVM installation method. Install another release only when a project's <code>.nvmrc</code> requires it.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>nvm install --lts
+nvm alias default 'lts/*'
+nvm use --lts
+corepack enable
+corepack prepare pnpm@latest --activate</pre></div>
+        <div class="task"><input id="t23" type="checkbox"><label for="t23"><strong>Install the latest stable Python.</strong><p>Use <code>uv</code> to install the latest stable release. Install an older feature line only when a project requires one.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>uv python install</pre></div>
+        <div class="task"><input id="t24" type="checkbox"><label for="t24"><strong>Install stable Rust only if required.</strong><p>Use the official rustup installer after approval; allow it to create <code>~/.cargo/env</code>, then select the stable channel.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>rustup toolchain install stable
+rustup default stable</pre></div>
+      </section>
+
+      <section id="apps">
+        <div class="section-head">
+          <div class="phase-number">03</div>
+          <div><h2>Applications</h2><p class="section-intro">Package source matters. The three casks below are the complete Homebrew-managed application baseline.</p></div>
+        </div>
+        <div class="task"><input id="t31" type="checkbox"><label for="t31"><strong>Install the approved Homebrew casks.</strong><p>Install these three packages from Homebrew.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>brew install --cask claude-code codex ngrok</pre></div>
+        <div class="grid">
+          <div class="cell">
+            <h3>Core development</h3>
+            <p>Visual Studio Code, Cursor, Zed, iTerm, Docker Desktop, GitHub Desktop, DBeaver, Claude, Codex, Conductor.</p>
+            <span class="tag unknown">Source unverified</span>
+          </div>
+          <div class="cell">
+            <h3>Communication and planning</h3>
+            <p>Google Chrome, Slack, Zoom, Loom, Linear, Bitwarden, Rectangle.</p>
+            <span class="tag unknown">Source unverified</span>
+          </div>
+        </div>
+        <div class="task"><input id="t32" type="checkbox"><label for="t32"><strong>Resolve each unverified source.</strong><p>Prefer the company app portal when available. Otherwise ask Liam to choose direct vendor download, Mac App Store, or Homebrew cask.</p></label></div>
+        <div class="task"><input id="t33" type="checkbox"><label for="t33"><strong>Install and configure Rectangle.</strong><p>Install Rectangle from the approved source, then configure and test its window-management shortcuts.</p></label></div>
+      </section>
+
+      <section id="editor">
+        <div class="section-head">
+          <div class="phase-number">04</div>
+          <div><h2>VS Code baseline</h2><p class="section-intro">Sign-in sync may restore these automatically. Compare the final list rather than installing duplicates blindly.</p></div>
+        </div>
+        <div class="task"><input id="t41" type="checkbox"><label for="t41"><strong>Restore VS Code settings safely.</strong><p>Use approved Settings Sync or transfer non-secret settings and keybindings. Inspect configuration for tokens and machine-specific paths.</p></label></div>
+        <div class="task"><input id="t42" type="checkbox"><label for="t42"><strong>Install the approved extensions.</strong><p>Run after the <code>code</code> CLI is available.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>for ext in \
+  anthropic.claude-code docker.docker esbenp.prettier-vscode \
+  github.vscode-github-actions github.vscode-pull-request-github \
+  gruntfuggly.todo-tree humao.rest-client letmaik.git-tree-compare \
+  openai.chatgpt redhat.vscode-yaml \
+  streetsidesoftware.code-spell-checker upstash.context7-mcp \
+  waderyan.gitblame yoavbls.pretty-ts-errors; do
+  code --install-extension "$ext"
+done</pre></div>
+      </section>
+
+      <section id="shell">
+        <div class="section-head">
+          <div class="phase-number">05</div>
+          <div><h2>Shell and Git</h2><p class="section-intro">The blocks below are the complete non-sensitive target configuration. Create fresh files from these values; do not source or copy dotfiles from another machine.</p></div>
+        </div>
+        <div class="task"><input id="t51" type="checkbox"><label for="t51"><strong>Create the zsh startup files.</strong><p>Use the configuration below verbatim. It contains no credentials or machine-specific absolute paths. NVM must already be installed under <code>$HOME/.nvm</code>.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre># ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# ~/.zshrc
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] &amp;&amp; . "$NVM_DIR/nvm.sh"
+
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version
+    nvmrc_node_version="$(nvm version "$(cat "$nvmrc_path")")"
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ -n "$OLDPWD" ] &amp;&amp; [ -n "$(PWD="$OLDPWD" nvm_find_nvmrc)" ] \
+    &amp;&amp; [ "$(nvm version)" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+[ -f "$HOME/.cargo/env" ] &amp;&amp; . "$HOME/.cargo/env"</pre></div>
+        <div class="task"><input id="t52" type="checkbox"><label for="t52"><strong>Add the Git branch cleanup helper to <code>~/.zshrc</code>.</strong><p>It fetches and prunes the remote, identifies local branches absent from <code>origin</code>, and requires confirmation before deletion.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>git-prune-local() {
+  git fetch --prune || return
+  local remote_branches
+  remote_branches="$(git branch -r | sed 's#origin/##' | sed 's/^[[:space:]]*//')"
+  local current
+  current="$(git branch --show-current)"
+  local branches
+  branches="$(git branch | sed 's/^[* ]*//' | while read -r branch; do
+    if [ "$branch" != "$current" ] \
+      &amp;&amp; ! echo "$remote_branches" | grep -qx "$branch"; then
+      echo "$branch"
+    fi
+  done)"
+
+  if [ -z "$branches" ]; then
+    echo "No stale branches to delete."
+    return
+  fi
+
+  echo "Branches to delete:"
+  echo "$branches"
+  echo
+  read "reply?Delete these branches? [y/N] "
+  if [[ "$reply" =~ ^[Yy]$ ]]; then
+    echo "$branches" | xargs git branch -D
+  else
+    echo "Aborted."
+  fi
+}</pre></div>
+        <div class="task"><input id="t53" type="checkbox"><label for="t53"><strong>Configure Git and authentication.</strong><p>Set VS Code as the editor. Ask Liam for the approved company name, email, signing policy, and GitHub account at setup time. Authenticate interactively; never write authentication material into a shell file or repository.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>git config --global core.editor "code --wait"
+gh auth login
+
+# Ask for approved values before running these:
+# git config --global user.name "..."
+# git config --global user.email "..."</pre></div>
+        <div class="task"><input id="t55" type="checkbox"><label for="t55"><strong>Create package-manager configuration safely.</strong><p>Do not copy <code>~/.npmrc</code>. Let approved tooling create it, and keep registry credentials in the system keychain or company secrets integration.</p></label></div>
+        <div class="task"><input id="t54" type="checkbox"><label for="t54"><strong>Set up iTerm.</strong><p>Target profile: Default, Monaco 12, 80 columns, 25 rows, no transparency, no blur. Confirm whether a native Terminal profile is preferred by policy.</p></label></div>
+      </section>
+
+      <section id="macos">
+        <div class="section-head">
+          <div class="phase-number">06</div>
+          <div><h2>macOS feel</h2><p class="section-intro">These preferences are part of the target setup. Apply them only after Liam approves the visible behavior.</p></div>
+        </div>
+        <div class="task"><input id="t61" type="checkbox"><label for="t61"><strong>Match the Dock.</strong><p>Auto-hide is enabled, icon size is 54 px, the reveal delay and transition duration are both zero, and minimizing uses Scale.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock autohide-time-modifier -float 0
+defaults write com.apple.dock mineffect -string scale
+defaults write com.apple.dock tilesize -int 54
+killall Dock</pre></div>
+        <div class="task"><input id="t62" type="checkbox"><label for="t62"><strong>Match appearance and keyboard behavior.</strong><p>Dark appearance is active. Keyboard UI mode is 2 and key repeat is 25. Confirm these values interact correctly with corporate accessibility settings.</p></label></div>
+        <div class="task"><input id="t63" type="checkbox"><label for="t63"><strong>Recreate Rectangle shortcuts.</strong><p>Test left/right halves, maximize, centered window, and display movement. Do not assume default shortcuts match the current setup.</p></label></div>
+      </section>
+
+      <section id="verify">
+        <div class="section-head">
+          <div class="phase-number">07</div>
+          <div><h2>Verification</h2><p class="section-intro">Finish with evidence. Report versions, deviations, and anything intentionally omitted.</p></div>
+        </div>
+        <div class="task"><input id="t71" type="checkbox"><label for="t71"><strong>Verify tool resolution and architecture.</strong><p>Confirm Homebrew is arm64 and tools resolve from expected locations.</p></label></div>
+        <div class="command"><button class="copy" type="button">Copy</button><pre>uname -m
+which brew node npm pnpm python3 cargo code
+brew config
+node --version
+npm --version
+pnpm --version
+python3 --version
+docker --version</pre></div>
+        <div class="task"><input id="t72" type="checkbox"><label for="t72"><strong>Verify project behavior.</strong><p>Open a trusted repository with an <code>.nvmrc</code>, confirm automatic Node switching, install dependencies, run its tests, and open it in VS Code.</p></label></div>
+        <div class="task"><input id="t73" type="checkbox"><label for="t73"><strong>Verify Dock and window management.</strong><p>Confirm the Dock appears instantly and Rectangle shortcuts behave as expected across all connected displays.</p></label></div>
+        <div class="task"><input id="t74" type="checkbox"><label for="t74"><strong>Deliver a final setup report.</strong><p>List installed versions and sources, skipped items, policy-driven differences, manual steps remaining, and whether any credential was rotated.</p></label></div>
+
+        <div class="prompt">
+          <h3>Opening instruction for the setup assistant</h3>
+          <p>Use this document as the target state. Start by auditing the new Mac and its corporate restrictions. Present a phased plan and exact proposed install commands before making changes. Preserve verified package provenance, ask about unverified applications, never copy secrets, and validate each completed phase with command output.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer><div class="shell">Local setup brief. Checkbox progress is stored only in this browser's local storage.</div></footer>
+
+  <script>
+    const tasks = [...document.querySelectorAll('.task input[type="checkbox"]')];
+    const storageKey = 'liam-dev-mac-setup-v1';
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+
+    function updateProgress() {
+      const done = tasks.filter((task) => task.checked).length;
+      document.getElementById('done-count').textContent = done;
+      document.getElementById('total-count').textContent = tasks.length;
+      document.getElementById('progress-bar').style.width = `${tasks.length ? (done / tasks.length) * 100 : 0}%`;
+      localStorage.setItem(storageKey, JSON.stringify(Object.fromEntries(tasks.map((task) => [task.id, task.checked]))));
+    }
+
+    tasks.forEach((task) => {
+      task.checked = Boolean(saved[task.id]);
+      task.addEventListener('change', updateProgress);
+    });
+
+    document.querySelectorAll('.copy').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const value = button.nextElementSibling.textContent;
+        await navigator.clipboard.writeText(value);
+        button.textContent = 'Copied';
+        setTimeout(() => { button.textContent = 'Copy'; }, 1200);
+      });
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>
